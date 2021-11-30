@@ -1,11 +1,11 @@
 import math
 
 import tensorflow as tf
-
-from keras.initializers import random_normal
 from keras import layers
 from keras.applications import VGG19
+from keras.initializers import random_normal
 from keras.models import Model
+
 
 def residual_block(inputs, filters):
     x = layers.Conv2D(filters, kernel_size=3, strides=1, padding='same', kernel_initializer = random_normal(stddev=0.02))(inputs)
@@ -17,6 +17,20 @@ def residual_block(inputs, filters):
     x = layers.Add()([x, inputs])
     return x
 
+def SubpixelConv2D(scale=4):
+    def subpixel_shape(input_shape):
+        dims = [input_shape[0],
+                None if input_shape[1] is None else input_shape[1] * scale,
+                None if input_shape[2] is None else input_shape[2] * scale,
+                int(input_shape[3] / (scale ** 2))]
+        output_shape = tuple(dims)
+        return output_shape
+
+    def subpixel(x):
+        return tf.depth_to_space(x, scale)
+
+    return layers.Lambda(subpixel, output_shape=subpixel_shape)
+    
 def deconv2d(inputs):
     x = layers.Conv2D(256, kernel_size=3, strides=1, padding='same', kernel_initializer = random_normal(stddev=0.02))(inputs)
     x = SubpixelConv2D(scale=2)(x)
@@ -94,20 +108,6 @@ def build_vgg():
     img_features = vgg(img)
 
     return Model(img, img_features)
-
-def SubpixelConv2D(scale=4):
-    def subpixel_shape(input_shape):
-        dims = [input_shape[0],
-                None if input_shape[1] is None else input_shape[1] * scale,
-                None if input_shape[2] is None else input_shape[2] * scale,
-                int(input_shape[3] / (scale ** 2))]
-        output_shape = tuple(dims)
-        return output_shape
-
-    def subpixel(x):
-        return tf.depth_to_space(x, scale)
-
-    return layers.Lambda(subpixel, output_shape=subpixel_shape)
 
 if __name__ == "__main__":
     model = build_generator([56,56,3])
