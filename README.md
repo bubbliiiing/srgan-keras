@@ -23,7 +23,7 @@ Yahoo MirFlickr25k数据集可以通过百度网盘下载：
 
 ## 预测步骤
 ### a、使用预训练权重
-1. 下载完库后解压，直接运行predict.py，输入要提高分辨率的图片的路径，即可生成高分辨率图片，生成图片位于根目录的predict_srgan.png。如输入：
+1. 下载完库后解压，直接运行predict.py，输入要提高分辨率的图片的路径，即可生成高分辨率图片，生成图片位于results/predict_out/predict_srgan.png。如输入：
 ```python
 img/before.jpg
 ```
@@ -39,11 +39,11 @@ _defaults = {
     "scale_factor"      : 4, 
 }
 ```
-3. 运行predict.py，输入要提高分辨率的图片的路径，即可生成高分辨率图片，生成图片位于根目录的predict_srgan.png。 
+3. 运行predict.py，输入要提高分辨率的图片的路径，即可生成高分辨率图片，生成图片位于results/predict_out/predict_srgan.png。 
 
 ## 训练步骤
 1. 训练前将期望生成的图片文件放在datasets文件夹下（参考Yahoo MirFlickr25k数据集）。  
 2. 运行根目录下面的txt_annotation.py，生成train_lines.txt，保证train_lines.txt内部是有文件路径内容的。  
-3. 运行train.py文件进行训练，训练过程中生成的图片可查看results文件夹下的图片。  
+3. 运行train.py文件进行训练，训练过程中生成的图片可查看results/train_out文件夹下的图片。  
 
 
