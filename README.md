@@ -16,10 +16,10 @@ keras==2.1.5
 为了验证模型的有效性，我使用了**Yahoo MirFlickr25k数据集**进行了训练。    
 训练好的生成器与判别器模型[Generator_SRGAN.h5](https://github.com/bubbliiiing/srgan-keras/releases/download/v1.0/Generator_SRGAN.h5)、[Discriminator_SRGAN.h5](https://github.com/bubbliiiing/srgan-keras/releases/download/v1.0/Discriminator_SRGAN.h5)可以通过百度网盘下载或者通过GITHUB下载    
 权值的百度网盘地址如下：    
-链接: https://pan.baidu.com/s/1W44mUvTTzzOnUlKqDEgKIA 提取码: jbqa    
+链接: https://pan.baidu.com/s/1Jf8mmzprXv9GSOiTWgB_CA 提取码: fc53  
 
 Yahoo MirFlickr25k数据集可以通过百度网盘下载：   
-链接: https://pan.baidu.com/s/126JhPf7Sx1R0_PcbY9xTMw 提取码: qgag    
+链接: https://pan.baidu.com/s/1kGGB-SClc44VkhKLR_GoVw 提取码: 58es  
 
 ## 预测步骤
 ### a、使用预训练权重
