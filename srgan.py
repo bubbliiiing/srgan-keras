@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 
 from nets.srgan import build_generator
-from utils.utils import preprocess_input, cvtColor
+from utils.utils import cvtColor, postprocess_output, preprocess_input
 
 
 class SRGAN(object):
@@ -36,7 +36,7 @@ class SRGAN(object):
         self.net.load_weights(self.model_path)
         print('{} model loaded.'.format(self.model_path))
 
-    def generate_1x1_image(self, image):
+    def detect_image(self, image):
         #---------------------------------------------------------#
         #   在这里将图像转换成RGB图像，防止灰度图在预测时报错。
         #   代码仅仅支持RGB图像的预测，所有其它类型的图像都会转化成RGB
@@ -45,16 +45,17 @@ class SRGAN(object):
         #---------------------------------------------------------#
         #   添加上batch_size维度，并进行归一化
         #---------------------------------------------------------#
-        image_data  = np.expand_dims(preprocess_input(np.array(image, dtype='float32'), [0.5,0.5,0.5], [0.5,0.5,0.5]), 0)
+        image_data  = np.expand_dims(preprocess_input(np.array(image, dtype='float32')), 0)
         
         #---------------------------------------------------------#
         #   将图像输入网络当中进行预测！
         #---------------------------------------------------------#
         hr_image    = self.net.predict(image_data)[0]
+        
         #---------------------------------------------------------#
         #   将归一化的结果再转成rgb格式
         #---------------------------------------------------------#
-        hr_image    = (hr_image * 0.5 + 0.5) * 255
+        hr_image    = postprocess_output(hr_image)
 
         hr_image    = Image.fromarray(np.uint8(hr_image))
         return hr_image
