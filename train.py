@@ -186,7 +186,11 @@ if __name__ == "__main__":
         fake_hr             = G_model(img_lr)
         valid               = D_model(fake_hr)
         fake_features       = VGG_model(fake_hr)
-        Combine_model       = Model(img_lr, [fake_hr, valid, fake_features])
+        Combine_model_body  = Model(img_lr, [fake_hr, valid, fake_features])
+        if ngpus_per_node > 1:
+            Combine_model = multi_gpu_model(Combine_model_body, gpus=ngpus_per_node)
+        else:
+            Combine_model = Combine_model_body
 
         Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
                                 metrics={'model_1': [PSNR, SSIM]})
