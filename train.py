@@ -199,11 +199,8 @@ if __name__ == "__main__":
             Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
                                     metrics={'generator': [PSNR, SSIM]})
         except:
-            try:
-                Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
-                                        metrics=[[PSNR, SSIM], [], []])
-            except:
-                Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer)
+            Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
+                                    metrics=[[PSNR, SSIM], [], []])
             
 
         train_dataloader    = SRganDataset(lines, lr_shape, hr_shape, batch_size)
