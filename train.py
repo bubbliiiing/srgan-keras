@@ -192,16 +192,8 @@ if __name__ == "__main__":
         else:
             Combine_model = Combine_model_body
 
-        #-----------------------------------------------------------------#
-        #   不同版本的keras与多gpu设置metrics方式不同，因此设置了多个try
-        #-----------------------------------------------------------------#
-        try:
-            Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
-                                    metrics={'generator': [PSNR, SSIM]})
-        except:
-            Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
-                                    metrics=[[PSNR, SSIM], [], []])
-            
+        Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
+                                metrics={Combine_model.output_layers[0].name: [PSNR, SSIM]})
 
         train_dataloader    = SRganDataset(lines, lr_shape, hr_shape, batch_size)
         
