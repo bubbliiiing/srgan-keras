@@ -193,7 +193,7 @@ if __name__ == "__main__":
             Combine_model = Combine_model_body
 
         Combine_model.compile(loss=['mse', 'binary_crossentropy', 'mse'], loss_weights=[1, 1e-3, 2e-6], optimizer=optimizer,
-                                metrics={'model_1': [PSNR, SSIM]})
+                                metrics={'generator': [PSNR, SSIM]})
 
         train_dataloader    = SRganDataset(lines, lr_shape, hr_shape, batch_size)
         

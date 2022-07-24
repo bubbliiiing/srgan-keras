@@ -71,7 +71,7 @@ def build_generator(lr_shape, scale_factor, num_residual=16):
 
     gen_hr = layers.Conv2D(3, kernel_size=9, strides=1, padding='same', activation='tanh')(x)
 
-    return Model(img_lr, gen_hr)
+    return Model(img_lr, gen_hr, name="generator")
 
 def d_block(inputs, filters, strides=1):
     x = layers.Conv2D(filters, kernel_size=3, strides=strides, padding='same', kernel_initializer = random_normal(stddev=0.02))(inputs)
@@ -97,7 +97,7 @@ def build_discriminator(hr_shape):
     x = layers.Dense(1024, kernel_initializer = random_normal(stddev=0.02))(x)
     x = layers.LeakyReLU(alpha=0.2)(x)
     validity = layers.Dense(1, activation='sigmoid', kernel_initializer = random_normal(stddev=0.02))(x)
-    return Model(inputs, validity)
+    return Model(inputs, validity, name="discriminator")
 
 def build_vgg():
     # 建立VGG模型，只使用第9层的特征
@@ -107,7 +107,7 @@ def build_vgg():
     img = layers.Input(shape=[None,None,3])
     img_features = vgg(img)
 
-    return Model(img, img_features)
+    return Model(img, img_features, name="vgg")
 
 if __name__ == "__main__":
     model = build_generator([56,56,3])
