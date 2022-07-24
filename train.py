@@ -151,6 +151,11 @@ if __name__ == "__main__":
     np.random.shuffle(lines)
     np.random.seed(None)
 
+    show_config(
+        lr_shape = lr_shape, hr_shape = hr_shape, Init_Epoch = Init_Epoch, Epoch = Epoch, batch_size = batch_size, \
+        Init_lr = Init_lr, Min_lr = Min_lr, optimizer_type = optimizer_type, momentum = momentum, lr_decay_type = lr_decay_type, \
+        save_period = save_period, save_dir = save_dir, num_workers = num_workers, num_train = num_train
+        )
     #------------------------------------------------------#
     #   Init_Epoch为起始世代
     #   Epoch总训练世代
