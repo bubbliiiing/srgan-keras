@@ -9,11 +9,11 @@ from keras.models import Model
 
 def residual_block(inputs, filters):
     x = layers.Conv2D(filters, kernel_size=3, strides=1, padding='same', kernel_initializer = random_normal(stddev=0.02))(inputs)
-    x = layers.BatchNormalization(momentum=0.5)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.advanced_activations.PReLU(shared_axes=[1,2])(x)
 
     x = layers.Conv2D(filters, kernel_size=3, strides=1, padding='same', kernel_initializer = random_normal(stddev=0.02))(x)
-    x = layers.BatchNormalization(momentum=0.5)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.Add()([x, inputs])
     return x
 
@@ -59,7 +59,7 @@ def build_generator(lr_shape, scale_factor, num_residual=16):
         x = residual_block(x, 64)
 
     x = layers.Conv2D(64, kernel_size=3, strides=1, padding='same', kernel_initializer = random_normal(stddev=0.02))(x)
-    x = layers.BatchNormalization(momentum=0.5)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.Add()([x, short_cut])
 
     #-------------------------------------------------------------#
@@ -75,7 +75,7 @@ def build_generator(lr_shape, scale_factor, num_residual=16):
 
 def d_block(inputs, filters, strides=1):
     x = layers.Conv2D(filters, kernel_size=3, strides=strides, padding='same', kernel_initializer = random_normal(stddev=0.02))(inputs)
-    x = layers.BatchNormalization(momentum=0.5)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU(alpha=0.2)(x)
     return x
 
